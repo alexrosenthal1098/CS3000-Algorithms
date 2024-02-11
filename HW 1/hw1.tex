@@ -1,0 +1,339 @@
+\documentclass[11pt]{article}
+
+\newcommand{\yourname}{}
+\newcommand{\yourcollaborators}{}
+
+\def\comments{0}
+
+%format and packages
+
+%\usepackage{algorithm, algorithmic}
+
+\usepackage{ulem}
+\usepackage{epsfig, graphicx}
+\usepackage[noend]{algpseudocode}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{enumerate}
+\usepackage{enumitem}
+\usepackage{framed}
+\usepackage{verbatim}
+\usepackage[margin=1.1in]{geometry}
+\usepackage{microtype}
+\usepackage{kpfonts}
+\usepackage{palatino}
+	\DeclareMathAlphabet{\mathtt}{OT1}{cmtt}{m}{n}
+	\SetMathAlphabet{\mathtt}{bold}{OT1}{cmtt}{bx}{n}
+	\DeclareMathAlphabet{\mathsf}{OT1}{cmss}{m}{n}
+	\SetMathAlphabet{\mathsf}{bold}{OT1}{cmss}{bx}{n}
+	\renewcommand*\ttdefault{cmtt}
+	\renewcommand*\sfdefault{cmss}
+	\renewcommand{\baselinestretch}{1.05}
+\usepackage[usenames,dvipsnames]{xcolor}
+\definecolor{DarkGreen}{rgb}{0.15,0.5,0.15}
+\definecolor{DarkRed}{rgb}{0.6,0.2,0.2}
+\definecolor{DarkBlue}{rgb}{0.2,0.2,0.6}
+\definecolor{DarkPurple}{rgb}{0.4,0.2,0.4}
+\usepackage[pdftex]{hyperref}
+\hypersetup{
+	linktocpage=true,
+	colorlinks=true,				% false: boxed links; true: colored links
+	linkcolor=DarkBlue,		% color of internal links
+	citecolor=DarkBlue,	% color of links to bibliography
+	urlcolor=DarkBlue,		% color of external links
+}
+
+\usepackage[boxruled,vlined,nofillcomment]{algorithm2e}
+	\SetKwProg{Fn}{Function}{\string:}{}
+	\SetKwFor{While}{While}{}{}
+	\SetKwFor{For}{For}{}{}
+	\SetKwIF{If}{ElseIf}{Else}{If}{:}{ElseIf}{Else}{:}
+	\SetKw{Return}{Return}
+	
+
+%enclosure macros
+\newcommand{\paren}[1]{\ensuremath{\left( {#1} \right)}}
+\newcommand{\bracket}[1]{\ensuremath{\left\{ {#1} \right\}}}
+\renewcommand{\sb}[1]{\ensuremath{\left[ {#1} \right\]}}
+\newcommand{\ab}[1]{\ensuremath{\left\langle {#1} \right\rangle}}
+
+%probability macros
+\newcommand{\ex}[2]{{\ifx&#1& \mathbb{E} \else \underset{#1}{\mathbb{E}} \fi \left[#2\right]}}
+\newcommand{\pr}[2]{{\ifx&#1& \mathbb{P} \else \underset{#1}{\mathbb{P}} \fi \left[#2\right]}}
+\newcommand{\var}[2]{{\ifx&#1& \mathrm{Var} \else \underset{#1}{\mathrm{Var}} \fi \left[#2\right]}}
+
+%useful CS macros
+\newcommand{\poly}{\mathrm{poly}}
+\newcommand{\polylog}{\mathrm{polylog}}
+\newcommand{\zo}{\{0,1\}}
+\newcommand{\pmo}{\{\pm1\}}
+\newcommand{\getsr}{\gets_{\mbox{\tiny R}}}
+\newcommand{\card}[1]{\left| #1 \right|}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\negl}{\mathrm{negl}}
+\newcommand{\eps}{\varepsilon}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\newcommand{\eqand}{\qquad \textrm{and} \qquad}
+\newcommand{\ind}[1]{\mathbb{I}\{#1\}}
+\newcommand{\sslash}{\ensuremath{\mathbin{/\mkern-3mu/}}}
+
+%info theory macros
+\newcommand{\SD}{\mathit{SD}}
+\newcommand{\sd}[2]{\SD\left( #1 , #2 \right)}
+\newcommand{\KL}{\mathit{KL}}
+\newcommand{\kl}[2]{\KL\left(#1 \| #2 \right)}
+\newcommand{\CS}{\ensuremath{\chi^2}}
+\newcommand{\cs}[2]{\CS\left(#1 \| #2 \right)}
+\newcommand{\MI}{\mathit{I}}
+\newcommand{\mi}[2]{\MI\left(~#1~;~#2~\right)}
+
+%mathbb
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+%mathcal
+\newcommand{\cA}{\mathcal{A}}
+\newcommand{\cB}{\mathcal{B}}
+\newcommand{\cC}{\mathcal{C}}
+\newcommand{\cD}{\mathcal{D}}
+\newcommand{\cE}{\mathcal{E}}
+\newcommand{\cF}{\mathcal{F}}
+\newcommand{\cL}{\mathcal{L}}
+\newcommand{\cM}{\mathcal{M}}
+\newcommand{\cO}{\mathcal{O}}
+\newcommand{\cP}{\mathcal{P}}
+\newcommand{\cQ}{\mathcal{Q}}
+\newcommand{\cR}{\mathcal{R}}
+\newcommand{\cS}{\mathcal{S}}
+\newcommand{\cU}{\mathcal{U}}
+\newcommand{\cV}{\mathcal{V}}
+\newcommand{\cW}{\mathcal{W}}
+\newcommand{\cX}{\mathcal{X}}
+\newcommand{\cY}{\mathcal{Y}}
+\newcommand{\cZ}{\mathcal{Z}}
+
+\newcommand{\hs}{\hspace{0.2in}}
+%theorem macros
+\newtheorem{thm}{Theorem}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{fact}[thm]{Fact}
+\newtheorem{clm}[thm]{Claim}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{coro}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{conj}[thm]{Conjecture}
+	\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+
+\theoremstyle{theorem}
+\newtheorem{prob}{Problem}
+
+
+\newcommand{\course}{CS 3000: Algorithms \& Data}
+\newcommand{\semester}{Spring 2024}
+
+\newcommand{\hwnum}{1}
+\newcommand{\hwdue}{Monday January 22 at 11:59pm via Gradescope}
+
+\definecolor{cit}{rgb}{0.05,0.2,0.45} 
+
+\newif\ifsolution
+
+\solutiontrue
+%\solutionfalse
+\ifsolution
+\newcommand{\solution}[1]{\medskip\noindent{\color{DarkBlue}\textbf{Solution:}} #1}
+\else
+\newcommand{\solution}[1]{}
+\fi
+
+\begin{document}
+{\Large 
+\begin{center} \course\ --- \semester\ \end{center}}
+{\large
+\vspace{10pt}
+\noindent Sample Solutions to Homework~\hwnum \vspace{2pt}\\
+Due~\hwdue}
+
+\vspace{15pt}
+\bigskip
+{\large
+\noindent Name: \yourname \vspace{2pt}\\ Collaborators: \yourcollaborators}
+
+\vspace{15pt}
+\begin{itemize}
+
+\item
+  Make sure to put your name on the first page.  If you are using the
+  \LaTeX~template we provided, then you can make sure it appears by
+  filling in the \texttt{yourname} command.
+
+\item This homework is due~\hwdue.  No late assignments will be accepted.  Make sure to submit something before the deadline.
+
+\item Solutions must be typed.  If you need to draw any diagrams,
+  you may draw them by hand as long as they are embedded in the PDF.
+  We recommend that you use \LaTeX, in which case it would be best to
+  use the source file for this assignment to get started. Your submitted file must be a PDF file.
+
+\item We encourage you to work with your classmates on the homework
+  problems, but also urge you to attempt all of the problems by
+  yourself first. \emph{If you do collaborate, you must write all
+    solutions by yourself, in your own words.}  Do not submit anything
+  you cannot explain.  Please list all your collaborators in your
+  solution for each problem by filling in the
+  \texttt{yourcollaborators} command.
+
+\item Finding solutions to homework problems on the web, or by asking
+  students not enrolled in the class is strictly forbidden.
+
+\end{itemize}
+\newpage
+
+%%%%%  PROBLEM 1
+\begin{prob}
+  \label{prob:mystery}
+(4 + 8 = 12 points)  What does this code do?
+\end{prob}
+
+\noindent You encounter the following mysterious piece of code.
+
+\begin{algorithm}[H]
+\caption{Mystery Function}
+\Fn{$F(n)$)}{
+  \If{$n=0$}{\Return $(2, 1)$}
+  \Else{
+    $b \gets 1$\\
+    \For{$i$ from 1 to $n$}{
+      $b \gets 2b$}
+    $(u,v) \gets F(n-1)$\\
+    \Return $(u + b, v \cdot b)$}
+}
+\end{algorithm}
+
+\begin{enumerate}[label=(\alph*)]
+\item What are the results of $F(1)$, $F(2)$, $F(3)$, and $F(4)$?  
+
+\solution{
+}
+
+\item What does the code do in general, when given input integer $n
+  \ge 0$? Prove your assertion by induction on $n$.
+
+  \solution{
+}
+\end{enumerate}
+
+\newpage
+
+%%%%% PROBLEM 2
+\begin{prob}
+  (12 points) Making exact change
+\end{prob}
+
+In the country of Perfect Squares, all coins are in denominations that are
+perfect squares i.e. $i^2$ for some integer $i$. You need to buy a jacket whose price is an integer $n\ge 1$.
+The country is obsessed with being perfect and you can only buy an item if you pay the exact price.
+You happen to have exactly one coin of value $i^2$ for each integer $i\ge 2$. 
+Additionally you have 4 coins of value $1$ each. Use induction to show that you can pay the exact cost of
+the jacket using your coins.
+
+\solution{
+}
+
+\newpage
+
+%%%%% PROBLEM 3
+\begin{prob}
+  (12 points) More induction practice
+\end{prob}
+
+Consider the following function $f$ defined on the nonnegative integers.
+
+\begin{align*}
+	f(0) & = 3\\
+	f(1) & = 4\\
+	f(n) & = 3f(n-2) + 2f(n-1)\text{, for $n\ge 2$}
+\end{align*}
+
+Prove by induction that $f(n)= (5\cdot (-1)^n + 7\cdot 3^n) / 4$ for all integer $n\ge 0$.
+
+\solution{
+}
+
+\newpage
+%%%%%  PROBLEM 4
+\begin{prob}
+\label{prob:function_growth}
+(12 points) Growth of functions
+\end{prob}
+
+Arrange the following functions in order from the slowest growing
+function to the fastest growing function. Note that $\lg n = \log_2 n$.
+
+\[ n^{2/3} \hs \hs n + \lg n \hs \hs 2^{\sqrt{\lg n}} \hs \hs (\lg n)^{\lg n}\]
+
+Justify your answers.  Specifically, if your order is of the form
+\[
+f_1 \hs \hs f_2 \hs \hs f_3 \hs \hs f_4,
+\]
+you should establish $f_1 = O(f_2)$, $f_2 = O(f_3)$, and $f_3 =
+O(f_4)$.  For each case, your justification can be in the form of a
+proof from first principles or a proof using limits, and can use any
+of the facts presented in the lecture or the text.  ({\em Hint:} It
+may help to plot the functions and obtain an estimate of their
+relative growth rates.  In some cases, it may also help to express the
+functions as a power of $2$ and then compare.)
+
+\solution{
+}
+
+\newpage
+
+%%%%%  PROBLEM 5
+\begin{prob}
+\label{prob:asymptotics}
+(2 $\times$ 5 = 10 points) Properties of asymptotic notation
+\end{prob}
+
+\noindent Let $f(n)$, $g(n)$, and $h(n)$ be asymptotically positive
+and monotonically increasing functions.  
+\begin{itemize}
+\item[{\bf (a)}] Using the formal definition of the $O$ and $\Omega$
+  notation, prove that if $f(n) = O(h(n))$ and $g(n)^2 = \Omega(h(n)^2)$,
+  then $f(n) = O(g(n))$.
+
+\solution{  }
+
+\item[{\bf (b)}] Give distinct functions $f$ and $g$ satisfying both
+  $f(n) = \Theta(g(n))$ and $3^{f(n)} = \Theta(3^{g(n)})$.
+
+  Give distinct functions $f$ and $g$ satisfying $f(n) = O(g(n))$ yet
+  $3^{f(n)} \neq O(27^{g(n)})$.
+
+  \solution{ }
+\end{itemize}
+
+\newpage
+%%%%%  PROBLEM 6
+\begin{prob}
+  \label{prob:sort_binary_search}
+  (12 points) Determining the largest element in one list that is not
+  present in another list
+\end{prob}
+
+We have learned that Mergesort sorts an array of $n$ numbers in $O(n
+\log n)$ time and Binary Search determines if a given number is
+present in a sorted array of $n$ numbers in $O(\log n)$ time.
+
+Describe an $O(n \log n)$ time algorithm that takes as input two
+arrays $A$ and $B$ with $n$ elements each (not necessarily sorted) and
+determines the largest number in $B$ that is not in $A$.  If all
+elements of $B$ are in $A$, then return ``All elements of B are in A''.
+
+Your algorithm should use mergesort and binary search and should not
+use hash tables.  Give your algorithm in pseudocode.  Justify the
+running time of your algorithm.
+
+\solution{
+}
+\end{document}

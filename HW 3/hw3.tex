@@ -1,0 +1,381 @@
+\documentclass[11pt]{article}
+
+\newcommand{\yourname}{}
+\newcommand{\yourcollaborators}{}
+
+\def\comments{0}
+
+%format and packages
+
+%\usepackage{algorithm, algorithmic}
+
+\usepackage{ulem}
+\usepackage{epsfig, graphicx}
+\usepackage[noend]{algpseudocode}
+\algnewcommand{\LineComment}[1]{\State \(\triangleright\) #1}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{enumerate}
+\usepackage{enumitem}
+\usepackage{framed}
+\usepackage{verbatim}
+\usepackage[margin=1.1in]{geometry}
+\usepackage{microtype}
+\usepackage{kpfonts}
+\usepackage{palatino}
+	\DeclareMathAlphabet{\mathtt}{OT1}{cmtt}{m}{n}
+	\SetMathAlphabet{\mathtt}{bold}{OT1}{cmtt}{bx}{n}
+	\DeclareMathAlphabet{\mathsf}{OT1}{cmss}{m}{n}
+	\SetMathAlphabet{\mathsf}{bold}{OT1}{cmss}{bx}{n}
+	\renewcommand*\ttdefault{cmtt}
+	\renewcommand*\sfdefault{cmss}
+	\renewcommand{\baselinestretch}{1.05}
+\usepackage[usenames,dvipsnames]{xcolor}
+\definecolor{DarkGreen}{rgb}{0.15,0.5,0.15}
+\definecolor{DarkRed}{rgb}{0.6,0.2,0.2}
+\definecolor{DarkBlue}{rgb}{0.2,0.2,0.6}
+\definecolor{DarkPurple}{rgb}{0.4,0.2,0.4}
+\usepackage{listings}
+\usepackage[pdftex]{hyperref}
+\hypersetup{
+	linktocpage=true,
+	colorlinks=true,				% false: boxed links; true: colored links
+	linkcolor=DarkBlue,		% color of internal links
+	citecolor=DarkBlue,	% color of links to bibliography
+	urlcolor=DarkBlue,		% color of external links
+}
+
+
+%enclosure macros
+\newcommand{\paren}[1]{\ensuremath{\left( {#1} \right)}}
+\newcommand{\bracket}[1]{\ensuremath{\left\{ {#1} \right\}}}
+\renewcommand{\sb}[1]{\ensuremath{\left[ {#1} \right\]}}
+\newcommand{\ab}[1]{\ensuremath{\left\langle {#1} \right\rangle}}
+
+%probability macros
+\newcommand{\ex}[2]{{\ifx&#1& \mathbb{E} \else \underset{#1}{\mathbb{E}} \fi \left[#2\right]}}
+\newcommand{\pr}[2]{{\ifx&#1& \mathbb{P} \else \underset{#1}{\mathbb{P}} \fi \left[#2\right]}}
+\newcommand{\var}[2]{{\ifx&#1& \mathrm{Var} \else \underset{#1}{\mathrm{Var}} \fi \left[#2\right]}}
+
+%useful CS macros
+\newcommand{\poly}{\mathrm{poly}}
+\newcommand{\polylog}{\mathrm{polylog}}
+\newcommand{\zo}{\{0,1\}}
+\newcommand{\pmo}{\{\pm1\}}
+\newcommand{\getsr}{\gets_{\mbox{\tiny R}}}
+\newcommand{\card}[1]{\left| #1 \right|}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\negl}{\mathrm{negl}}
+\newcommand{\eps}{\varepsilon}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\newcommand{\eqand}{\qquad \textrm{and} \qquad}
+\newcommand{\ind}[1]{\mathbb{I}\{#1\}}
+\newcommand{\sslash}{\ensuremath{\mathbin{/\mkern-3mu/}}}
+
+%info theory macros
+\newcommand{\SD}{\mathit{SD}}
+\newcommand{\sd}[2]{\SD\left( #1 , #2 \right)}
+\newcommand{\KL}{\mathit{KL}}
+\newcommand{\kl}[2]{\KL\left(#1 \| #2 \right)}
+\newcommand{\CS}{\ensuremath{\chi^2}}
+\newcommand{\cs}[2]{\CS\left(#1 \| #2 \right)}
+\newcommand{\MI}{\mathit{I}}
+\newcommand{\mi}[2]{\MI\left(~#1~;~#2~\right)}
+
+%mathbb
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+%mathcal
+\newcommand{\cA}{\mathcal{A}}
+\newcommand{\cB}{\mathcal{B}}
+\newcommand{\cC}{\mathcal{C}}
+\newcommand{\cD}{\mathcal{D}}
+\newcommand{\cE}{\mathcal{E}}
+\newcommand{\cF}{\mathcal{F}}
+\newcommand{\cL}{\mathcal{L}}
+\newcommand{\cM}{\mathcal{M}}
+\newcommand{\cO}{\mathcal{O}}
+\newcommand{\cP}{\mathcal{P}}
+\newcommand{\cQ}{\mathcal{Q}}
+\newcommand{\cR}{\mathcal{R}}
+\newcommand{\cS}{\mathcal{S}}
+\newcommand{\cU}{\mathcal{U}}
+\newcommand{\cV}{\mathcal{V}}
+\newcommand{\cW}{\mathcal{W}}
+\newcommand{\cX}{\mathcal{X}}
+\newcommand{\cY}{\mathcal{Y}}
+\newcommand{\cZ}{\mathcal{Z}}
+
+\newcommand{\hs}{\hspace{0.2in}}
+%theorem macros
+\newtheorem{thm}{Theorem}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{fact}[thm]{Fact}
+\newtheorem{clm}[thm]{Claim}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{coro}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{conj}[thm]{Conjecture}
+	\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+
+\theoremstyle{theorem}
+\newtheorem{prob}{Problem}
+
+\newcommand{\opt}{\mbox{{\sc Opt}}}
+
+\newcommand{\course}{CS 3000: Algorithms \& Data}
+\newcommand{\semester}{Spring 2024}
+
+\newcommand{\hwnum}{3}
+\newcommand{\hwdue}{Monday February 19 at 11:59pm via Gradescope}
+
+\newif\ifsolution
+
+\solutiontrue
+%\solutionfalse
+\ifsolution
+\newcommand{\solution}[1]{{\medskip\noindent\color{DarkBlue}\textbf{Solution:} {#1}}}
+\else
+\newcommand{\solution}[1]{}
+\fi
+
+\begin{document}
+{\Large 
+\begin{center} \course\ --- \semester\ \end{center}}
+{\large
+\vspace{10pt}
+\noindent Homework~\hwnum \vspace{2pt}\\
+Due~\hwdue}
+
+\vspace{15pt}
+\bigskip
+{\large
+\noindent Name: \yourname \vspace{2pt}\\ Collaborators: \yourcollaborators}
+
+\vspace{15pt}
+\begin{itemize}
+
+\item
+  Make sure to put your name on the first page.  If you are using the
+  \LaTeX~template we provided, then you can make sure it appears by
+  filling in the \texttt{yourname} command.
+
+\item This homework is due~\hwdue.  No late assignments will be accepted.  Make sure to submit something before the deadline.
+
+\item Solutions must be typeset.  If you need to draw any diagrams,
+  you may draw them by hand as long as they are embedded in the PDF.
+  We recommend that you use \LaTeX, in which case it would be best to
+  use the source file for this assignment to get started.
+
+\item We encourage you to work with your classmates on the homework
+  problems, but also urge you to attempt all of the problems by
+  yourself first. \emph{If you do collaborate, you must write all
+    solutions by yourself, in your own words.}  Do not submit anything
+  you cannot explain.  Please list all your collaborators in your
+  solution for each problem by filling in the
+  \texttt{yourcollaborators} command.
+
+\item Finding solutions to homework problems on the web, or by asking
+  students not enrolled in the class is strictly forbidden.
+
+\end{itemize}
+\newpage
+
+\begin{prob}
+	(3 + 6 + 7 + 4 = 20 points) Stacking packages in a warehouse
+\end{prob}
+
+
+You are working in an Amazon warehouse and are designing a program to
+optimally store shipments, each of which is a rectangular prism (each
+face is a rectangle).  One piece of this program is to stack the
+maximum number of packages in a single stack.  All packages have the
+same height but may vary in length, breadth, and weight.  So, your
+program takes as input three lists $L$, $B$, and $W$, each of length
+$n$, where $L[i]$, $B[i]$, and $W[i]$ denote the length, breadth, and
+weight, respectively, of the $i$th package.
+
+Package $i$ can be placed on top of package $j$ if (i) $W[i] <
+W[j]$, and (ii) package $i$ can be oriented so that it is strictly
+smaller than package $j$ in each of the two dimensions.  For example,
+even though the package $i$ with $L[i] = 5$ and $B[i] = 1$ is longer
+than package $j$ with $L[j] = 2$ and $B[j] = 6$, $i$ can be stacked on
+$j$ by switching its length and breadth.
+
+\begin{itemize}
+	\item[{\bf (a)}] Describe an $O(1)$ time algorithm to determine
+	whether one package can be stacked on top of another.
+	
+	\solution{
+	}
+	
+	\item[{\bf (b)}] Suppose the packages are labeled $1$ through $n$ in
+	order of increasing weight (assume all weights are distinct).  Let
+	$\opt(i)$ denote the maximum number of packages you can stack using
+	packages $1$ through $i$, with package $i$ at the bottom of the
+	stack.  Give a recurrence to compute $\opt(i)$, and write the base
+	case for this recurrence.  Write a few sentences explaining why your
+	recurrence is correct.
+	
+	\solution{
+	}
+
+	\item[{\bf (c)}] Using your recurrence, design a dynamic programming
+	algorithm {\em with pseudocode} to output the optimal set of packages to stack.  You may
+	use either a top-down or bottom-up approach.  Remember that your
+	algorithm needs to output the optimal set of packages, not only
+	their count.  Your algorithm may output the set of packages as a
+	list of indices.  The running time of your algorithm must be
+	polynomial in $n$.
+	
+	\solution{
+	}
+	
+	\item[{\bf (d)}]
+	Analyze the running time and space usage of your algorithm.
+	
+	\solution{
+	}
+\end{itemize}
+
+\newpage
+
+\begin{prob}
+	(5 + 6 + 9 = 20 points) Nicest photos
+\end{prob}
+
+Alice would like to take nice photos of the Boston skyline. She records the height of the buildings in an array $h[1],\ldots, h[n]$, where $h_1$ is the height of the leftmost building and $h_n$ is the height of the rightmost building. Each photo cannot stray beyond the recorded skyline and it captures $k$ consecutive buildings. The score of a photo is the total height of all the building in the photo plus the tallest height. For example, if the heights are $5,2,9,1,7$ and $k=3$ then the best photo would capture $9,1,7$ with score $(9+1+7)+9 = 26$. Alice would like to find the set of non-overlapping photos with the maximum total score. For example, if the heights are $1,1,1,6,6,1,1,1,1$ and $k=3$ then the best set of photos consist of $1,1,6$ and $6,1,1$ for the total score of $28$.
+
+\begin{enumerate}[label={\bf (\alph*)}]
+	\item Let $score[i]$ denote the score of the photo capturing buildings from $i-k+1$ to $i$. Give an algorithm to compute $score[i]$ for all $i$ that runs in $O(nk)$ time.
+	
+	\solution{
+	}
+	\item Let $\opt[i]$ denote the maximum score for non-overlapping photos contained entirely between buildings from $1$ to $i$, inclusively. Give a recurrence for computing $\opt[i]$ and the base case(s).
+	
+	\solution{
+	}
+
+	\item Use your recurrence to design a dynamic programming algorithm {\em with pseudocode}, which takes as input the $h$ array and $k$, and computes the best total score as well as the photo locations. Give the running time of your algorithm.
+	
+	\solution{
+	}
+
+	
+	\item {\bf (0 bonus points)} Give an algorithm for part (a) with $O(n)$ runtime. Hint: a viable approach is divide and conquer.
+
+	\solution{
+	}
+\end{enumerate}
+\newpage
+
+\begin{prob}{(5 + 6 + 5 + 4 = 20 points) Elegant subsequence}\end{prob}
+We are given an array $A[1,\ldots, n]$ of $n$ distinct integers sorted in increasing order. A subsequence of $A$ is a sequence that can be derived from $A$ by deleting some (or none) of the elements without changing the order of the remaining elements. A sequence is elegant if all the differences of the consecutive elements are all the same. For example, $1,4,7,10$ is elegant because the differences between consecutive elements are all $3$. We would like to find the longest elegant subsequence of $A$. For example, if $A = (1,3,4,7,8,10)$ then the longest elegant subsequence is $(1,4,7,10)$. For full credit, your algorithm should run in $O(n^2 \log n)$ time ($O(n^2)$ is possible).
+
+\begin{enumerate}[label=(\alph*)]
+	\item Let $L[i,j]$ be the length of the longest elegant subsequence whose last two indices are $i$ and $j$ where $i<j$. Describe a recurrence to compute $L[i,j]$ using $L[k,i]~\forall k<i$. Hint: Define $p[i,j]$ to be the index of the element in $A$ such that $A[p[i,j]] = 2A[i] - A[j]$ i.e. $A[p[i,j]] -A[i] = A[i] - A[j]$ (if such an element exists).
+	
+	\solution{
+	}
+	
+	\item Describe a dynamic programming algorithm {\em with pseudocode} to compute all $L[i,j]$.
+	
+	\solution{
+}
+	\item Describe how to find the longest elegant subsequence from the $L[i,j]$ you computed.
+	
+	\solution{
+	}
+
+	\item Analyze the running time and space usage of your algorithm.
+	
+	\solution{
+	}
+\end{enumerate}
+
+\newpage
+
+\begin{prob}
+	(6 + 7 + 3 + 4 = 20 points) Resource reservation in video transmission
+\end{prob}
+
+Consider the following resource reservation problem arising in video
+transmission.  Suppose we have a video that is a sequence of $n$
+frames.  We are given an array $s[0\ldots n-1]$: frame $i$ requires
+the reservation of at least $s[i]$ units of bandwidth along the
+transmission link.  Since reserving resources separately for each
+frame may incur a significant overhead, we would like to partition the
+video into at most $k$ {\em segments}\/ (where $k$ is usually much
+smaller than $n$), and then reserve bandwidth for each segment.  Note
+that each segment is simply an interval of contiguous frames and that
+the segments may be of different lengths.
+
+The amount of bandwidth that we need to reserve for a segment is the
+maximum, over all frames in the segment, of the bandwidth required for
+the frame.  Formally put, for a given interval of frames $I$, the
+bandwidth $B(I)$ required for the segment equals $\max_{i \in I}
+s[i]$.
+
+A segmentation of the video into $k$ segments is a sequence of $k-1$
+integers $0 < p[0] < p[1] < \ldots < p[k-2] < k$ indicating that the
+segments are given by the $k$ intervals $I_0 = [0\ldots p[0]-1], I_1 =
+[p[0] \ldots p[1]-1], \ldots, I_{k-1} = [p[k-1]\ldots k-1]$.  The {\em
+	cost\/} of the segmentation is the total bandwidth required, which
+is the following:
+\[
+\sum_{0 \le i < k} |I_i| \cdot B(I_i)
+\]
+where $|I_i|$ is the number of frames in segment $S_i$.
+
+\noindent {\bf Example:} Suppose $n = 10$, the array $s = [3, 5, 2, 9,
+5, 6, 7, 1, 4, 11]$, and $k = 3$.  If we consider the segmentation
+$[0-2], [3-6], [7-9]$, the total bandwidth requirement would be
+\[
+5 \times 3 + 9 \times 4 + 11 \times 3 = 84.
+\]
+On the other hand, if we choose the segmentation $[0-3], [4-8],
+[9-9]$, the total bandwidth requirement would be
+\[
+9 \times 4 + 7 \times 5 + 11 = 82.
+\]
+
+Your goal is to design a dynamic programming algorithm that takes
+input the $n$ values $s[0], s[1], \ldots, s[n-1]$, and the positive
+integer $k \le n$ and computes a segmentation which has minimum cost.
+
+\begin{itemize}
+	\item[{\bf (a)}] Let $\opt(i,m)$ denote the minimum cost for
+	segmenting frames $0$ through $i$ using $m$ segments.  Give a
+	recurrence to compute $\opt(i,m)$, and write the base case(s) for
+	this recurrence.  Write a few sentences explaining why your
+	recurrence is correct.
+	
+	\solution{ 
+	}
+	
+	\item[{\bf (b)}] Using your recurrence, design a dynamic programming
+	algorithm {\em with pseudocode}, which takes as input the $s$ array and $k$, and outputs
+	the optimal cost for segmenting the video into $k$ segments. You may
+	use either a top-down or bottom-up approach.  The output of your
+	algorithm is a single number.  The running time of your algorithm
+	must be polynomial in $n$.
+	
+	\solution{
+	}
+	
+	\item[{\bf (c)}] Analyze the running time and space usage of your algorithm.
+	
+	\solution{
+	}
+	
+	\item[{\bf (d)}] Enhance your algorithm of part
+	(b) to return the optimal segmentation, not just the optimal cost.
+	The output of your algorithm can be the array $p$ giving the
+	segmentation.
+	
+	\solution{ }
+\end{itemize}
+
+\end{document}
